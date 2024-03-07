@@ -1,0 +1,62 @@
+# Update bump details accordingly. Use bump check to confirm.
+# bump: ttype-version /TTYPE_VERSION="(.*)"/ https://github.com/dustin-ward/ttype.git|semver:*
+TTYPE_VERSION="0.3.0" # Specify a stable release
+export ZOPEN_STABLE_TAG="v${TTYPE_VERSION}"
+export ZOPEN_STABLE_URL="https://github.com/dustin-ward/ttype.git"
+export ZOPEN_STABLE_DEPS="comp_go wharf"
+export ZOPEN_DEV_URL="https://github.com/dustin-ward/ttype.git"
+export ZOPEN_DEV_DEPS="comp_go wharf"
+export ZOPEN_BUILD_LINE="STABLE"
+export ZOPEN_COMP="GO"
+export ZOPEN_CATEGORIES="utilities"
+
+export ZOPEN_CONFIGURE="zopen_wharf"
+export ZOPEN_CONFIGURE_MINIMAL=1
+export ZOPEN_MAKE="go"
+export ZOPEN_MAKE_OPTS="build"
+export ZOPEN_MAKE_MINIMAL=1
+export ZOPEN_INSTALL="zopen_install"
+export ZOPEN_CHECK="skip"
+export ZOPEN_CLEAN="zopen_clean"
+
+zopen_init()
+{
+    # Go installs binaries, so create the bin dir as well
+    export GOBIN=$ZOPEN_INSTALL_DIR/bin
+    mkdir -p $ZOPEN_INSTALL_DIR/bin
+    unset CC CXX
+    export PATH=$PATH:$GOROOT/go-build-zos/bin
+}
+
+zopen_wharf()
+{
+    echo "WHARF PORT LOG ========"
+    cd ..
+    git clone https://github.com/charmbracelet/bubbletea.git
+    cd ./bubbletea
+    git apply ../bubbletea-patches/tea.go.patch
+    cd ..
+
+    go work init ./ttype ./bubbletea
+    wharf -v ./ttype
+    cd ./ttype
+    echo "END OF WHARF PORT LOG ========"
+}
+
+zopen_install()
+{
+    #TODO:(@dustin-ward) Rename default executable in ttype
+    mkdir -p "$ZOPEN_INSTALL_DIR/bin"
+    mv ./termtyping $ZOPEN_INSTALL_DIR/bin/ttype
+}
+
+zopen_clean()
+{
+    rm -rf ../.wharf_cache ../go.work* ../wharf_port
+}
+
+zopen_get_version()
+{
+    #TODO:(@dustin-ward) Add version flag to ttype
+    echo "$TTYPE_VERSION"
+}
