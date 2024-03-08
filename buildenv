@@ -45,9 +45,7 @@ zopen_wharf()
 
 zopen_install()
 {
-    #TODO:(@dustin-ward) Rename default executable in ttype
-    mkdir -p "$ZOPEN_INSTALL_DIR/bin"
-    mv ./termtyping $ZOPEN_INSTALL_DIR/bin/ttype
+    go install
 }
 
 zopen_clean()
