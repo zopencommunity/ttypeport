@@ -3,9 +3,9 @@
 TTYPE_VERSION="0.4.0" # Specify a stable release
 export ZOPEN_STABLE_TAG="v${TTYPE_VERSION}"
 export ZOPEN_STABLE_URL="https://github.com/dustin-ward/ttype.git"
-export ZOPEN_STABLE_DEPS="comp_go wharf"
+export ZOPEN_STABLE_DEPS="check_go wharf"
 export ZOPEN_DEV_URL="https://github.com/dustin-ward/ttype.git"
-export ZOPEN_DEV_DEPS="comp_go wharf"
+export ZOPEN_DEV_DEPS="check_go wharf"
 export ZOPEN_BUILD_LINE="STABLE"
 export ZOPEN_COMP="GO"
 export ZOPEN_CATEGORIES="utilities"
